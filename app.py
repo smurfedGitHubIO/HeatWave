@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, render_template
 import pandas as pd
 from urllib.request import urlopen
 import json
@@ -174,16 +174,17 @@ def home():
                             )
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     div = fig.to_html(full_html=False)
-    return render_template_string('''
-        <html>
-        <head>
-            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        </head>
-        <body>
-            {{div_placeholder|safe}}
-        </body>
-        </html>
-    ''', div_placeholder=div)
+    # return render_template_string('''
+        # <html>
+        # <head>
+        #     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        # </head>
+        # <body>
+        #     {{div_placeholder|safe}}
+        # </body>
+        # </html>
+    # ''', div_placeholder=div)
+    return render_template('page.html', divplaceholder=div)
 
 if __name__ == "__main__":
     app.run(debug=True)
