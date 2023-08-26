@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string, render_template
+from flask import Flask, render_template
 import pandas as pd
 from urllib.request import urlopen
 import json
@@ -165,25 +165,22 @@ us_state_longitudes = {
     "WY": -107.302490
 }
 
+colors = [
+    'Heat Wave Days Based on Daily Maximum Temperature',
+    'Heat Wave Days Based on Daily Maximum Heat Index',
+    'Heat Wave Days Based on Net Daily Heat Stress',
+    'Population'
+]
+
 @app.route("/")
 def home():
     dft = pd.read_csv('data.txt', sep='\t', dtype={"County Code": str})
-    fig = px.choropleth(dft, geojson=counties, locations='County Code', color='Heat Wave Days Based on Daily Maximum Temperature',
+    fig = px.choropleth(dft, geojson=counties, locations='County Code', color=colors[1],
                             color_continuous_scale="Viridis",
                             scope="usa",
                             )
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-    div = fig.to_html(full_html=False)
-    # return render_template_string('''
-        # <html>
-        # <head>
-        #     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        # </head>
-        # <body>
-        #     {{div_placeholder|safe}}
-        # </body>
-        # </html>
-    # ''', div_placeholder=div)
+    div = fig.to_html(full_html=False, default_width="80%", default_height=600)
     return render_template('page.html', divplaceholder=div)
 
 if __name__ == "__main__":
