@@ -5,10 +5,12 @@ from urllib.request import urlopen
 import json
 with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
     counties = json.load(response)
+import os
 
 df = pd.read_csv('./data.txt')
 
 app = Dash(__name__)
+server = app.server
 
 features = ['Heat Wave Days Based on Daily Maximum Temperature',
             'Heat Wave Days Based on Daily Maximum Heat Index',
