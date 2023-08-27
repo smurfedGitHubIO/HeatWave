@@ -7,7 +7,7 @@ with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-c
     counties = json.load(response)
 import os
 
-df = pd.read_csv('./data.txt')
+df = pd.read_csv('./data.txt', sep='\t', dtype={"County Code": str})
 
 app = Dash(__name__)
 server = app.server
@@ -18,7 +18,7 @@ features = ['Heat Wave Days Based on Daily Maximum Temperature',
             'Population']
 
 app.layout = html.Div([
-    html.H1(children='Title of Dash App', style={'textAlign':'center'}),
+    html.H1(children='Heat Wave Instance', style={'textAlign':'center'}),
     dcc.Dropdown(features, 'Heat Wave Days Based on Daily Maximum Temperature', id='dropdown-selection'),
     dcc.Graph(id='graph-content')
 ])
